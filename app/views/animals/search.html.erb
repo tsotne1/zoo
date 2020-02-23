@@ -1,6 +1,12 @@
-<% if @animal%>
-  <%= @animal.inspect %>
-
-<% else %>
-  No results Found
-<% end %>
+<h1 align="center">Results</h1>
+<div align="center">
+  <% @result.each do |animal| %>
+    <ul class="listing">
+      <div class="card border-default" style="width: 20rem;">
+        <div class="card bg-light">
+          <li><h3><%= link_to animal.name, animal_path(animal) %></h3></li>
+        </div>
+      </div>
+    </ul>
+  <% end %>
+</div>

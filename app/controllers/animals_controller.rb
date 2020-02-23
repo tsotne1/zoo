@@ -41,7 +41,7 @@ class AnimalsController < ApplicationController
   end
 
   def search
-    @animal = Animal.search(params[:search])
+    @result = Animal.search(params[:search])
   end
 
   def destroy
