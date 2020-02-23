@@ -4,11 +4,11 @@ class AnimalsController < ApplicationController
   before_action :require_same_user, only: [:edit, :update, :destroy]
 
   def index
-    @animals = animal.paginate(page: params[:page], per_page: 5)
+    @animals = Animal.all
   end
 
   def new
-    @animal = animal.new
+    @animal = Animal.new
   end
 
   def edit
@@ -16,7 +16,7 @@ class AnimalsController < ApplicationController
   end
 
   def create
-    @animal = animal.new(animal_params)
+    @animal = Animal.new(animal_params)
     @animal.user = current_user
     if @animal.save
       flash[:success] = "animal was created succ"
@@ -40,8 +40,11 @@ class AnimalsController < ApplicationController
 
   end
 
-  def destroy
+  def search
+    @animal = Animal.search(params[:search])
+  end
 
+  def destroy
     @animal.destroy
     flash[:danger] = "animals deleted succ"
     redirect_to animals_path
@@ -49,17 +52,17 @@ class AnimalsController < ApplicationController
 
   private
     def set_animal
-      @animal = animal.find(params[:id])
+      @animal = Animal.find(params[:id])
     end
 
     def animal_params
-      params.require(:animal).permit(:title, :description, category_ids: [])
+      params.require(:animal).permit(:name, :animal_class, :age, :gender, :description,  category_ids: [])
     end
 
-    #def require_same_user
-      #if current_user != @animal.user and !current_user.admin?
-        #flash[:danger] = "You can only edit or delte your own animals"
-        #redirect_to root_path
-    #  end
-    #end
+    def require_same_user
+      if current_user != @animal.user and !current_user.admin?
+        flash[:danger] = "You can only edit or delte your own animals"
+        redirect_to root_path
+      end
+    end
 end

@@ -1,0 +1,15 @@
+<h1 align="center">Listing all categories</h1>
+
+<% @categories.each do |category| %>
+  <ul class="listing" align="center" >
+    <div class="card" >
+      <li class="animal-name">
+        <%= link_to "#{category.name}", category_path(category) %>
+      </li>
+      <li class="animal-name">
+        <small><%= pluralize(category.animals.count, "animal") %></small>
+      </li>
+    </div>
+  </ul>
+
+<% end %>

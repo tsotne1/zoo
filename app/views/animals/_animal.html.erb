@@ -1,0 +1,31 @@
+<% obj.each do |animal| %>
+  <div class="card border-default text-default mb-3">
+
+      <div class="animal-name">
+        <td><%= link_to animal.name, animal_path(animal) %></td>
+      </div>
+      <div class="animal_body">
+        <%= truncate(animal.description, length: 100) %>
+        <div class="animal-meta-details">
+          <small>Created by: <%= animal.user.username if animal.user %>
+                             <%= time_ago_in_words(animal.created_at) %> ago,
+                last updated: <%= time_ago_in_words(animal.updated_at) %> ago
+          </small>
+        </div>
+        <% if animal.categories.any? %>
+          <div class="animal-meta-details">
+              <p>Categories: <%= render animal.categories %></p>
+          </div>
+        <% end %>
+      </div>
+
+      <% if logged_in? && (current_user == animal.user || current_user.admin?) %>
+        <div class="animal-actions">
+          <%= link_to "Edit this animal", edit_animal_path(animal), class: "btn btn-sm btn-primary" %>
+          <%= link_to "Delete this animal", animal_path(animal), method: :delete,
+                                              data: {confirm: "are you sure?"},
+                                              class: "btn btn-sm btn-danger" %>
+        </div>
+      <% end %>
+  </div>
+<% end %>

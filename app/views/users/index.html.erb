@@ -1,0 +1,17 @@
+<h1 align="center">All DreamZoogers</h1>
+<div align="center">
+  <% @users.each do |user| %>
+    <ul class="listing">
+      <div class="card border-default" style="width: 20rem;">
+        <div class="card bg-light">
+          <li><h3><%= link_to user.username, user_path(user) %></h3></li>
+          <li><small><%= pluralize(user.animals.count, "animal") if user.animals %></small></li>
+          <% if logged_in? and current_user.admin? %>
+            <li><%= link_to "Delete user", user_path(user), method: :delete,
+                data: { confirm: "Are you sure?"}%></li>
+          <% end %>
+        </div>
+      </div>
+    </ul>
+  <% end %>
+</div>
